@@ -16,7 +16,11 @@ jobs:
       - name: copy common files
         run: cp -r common/* ${{ matrix.image }}
       - name: download mautic
-        run: wget -O mautic.zip https://github.com/mautic/mautic/releases/download/${{ matrix.mautic-version }}/${{ matrix.mautic-version}}.zip
+        run: |
+          wget -O mautic.zip https://github.com/mautic/mautic/releases/download/${{ matrix.mautic-version }}/${{ matrix.mautic-version}}.zip
+          echo MAUTIC_SHA1="$(sha1sum mautic.zip | sed -r 's/ .*//')" >> $GITHUB_ENV
+      - name: echo mautic version and sha1sum 
+          echo ${{ matrix.mautic-version }} - ${{ env.MAUTIC_SHA1 }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -25,6 +29,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ${{ matrix.image }}
-          build-args: MAUTIC_VERSION=${{ steps.tag.outputs.TAG }}
+          build-args: |
+            MAUTIC_VERSION=${{ matrix.mautic-version }}
+            MAUTIC_SHA1=${{ env.MAUTIC_SHA1 }}
           push: false
           tags: mautic/docker-${{ matrix.image }}:latest
