@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:8.0-apache
 
 LABEL vendor="Mautic"
 LABEL maintainer="Luiz Eduardo Oliveira Fonseca <luiz@powertic.com>"
@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     libkrb5-dev \
     libmcrypt-dev \
     libssl-dev \
+    libzip-dev \
     libz-dev \
     unzip \
     zip \
@@ -23,8 +24,9 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 
 RUN docker-php-ext-configure imap --with-imap --with-imap-ssl --with-kerberos \
     && docker-php-ext-configure opcache --enable-opcache \
-    && docker-php-ext-install imap intl mbstring mcrypt mysqli pdo_mysql zip opcache bcmath\
-    && docker-php-ext-enable imap intl mbstring mcrypt mysqli pdo_mysql zip opcache bcmath
+    && pecl install mcrypt-1.0.4 \
+    && docker-php-ext-install imap intl mysqli pdo_mysql zip opcache bcmath\
+    && docker-php-ext-enable imap intl mcrypt mysqli pdo_mysql zip opcache bcmath
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
@@ -33,8 +35,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 VOLUME /var/www/html
 
 # Define Mautic version and expected SHA1 signature
-ENV MAUTIC_VERSION 2.16.2
-ENV MAUTIC_SHA1 df6735df8d7d31cc6bc505c38ee8147b40b8311b
+ARG MAUTIC_VERSION
+ENV MAUTIC_VERSION $MAUTIC_VERSION
+ARG MAUTIC_SHA1
+ENV MAUTIC_SHA1 $MAUTIC_SHA1
 
 # By default enable cron jobs
 ENV MAUTIC_RUN_CRON_JOBS true
