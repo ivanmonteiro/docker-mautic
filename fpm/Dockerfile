@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     libonig-dev \
     unzip \
     zip \
+    nano \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/* \
     && rm /etc/cron.daily/*
