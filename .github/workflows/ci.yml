@@ -43,7 +43,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           platforms: linux/amd64
-          context: ${{ matrix.image }}
+          context: .
+          file: ${{ matrix.image }}/Dockerfile
           build-args: |
             MAUTIC_VERSION=${{ matrix.mautic-version }}
             MAUTIC_SHA1=${{ env.MAUTIC_SHA1 }}
