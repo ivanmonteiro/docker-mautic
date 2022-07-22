@@ -16,7 +16,7 @@ jobs:
       - name: copy common files
         run: cp -r common/* ${{ matrix.image }}
       - name: download mautic
-        run: wget -O mautic.zip https://github.com/mautic/mautic/releases/download/${matrix.mautic-version}/${matrix.mautic-version}.zip
+        run: wget -O mautic.zip https://github.com/mautic/mautic/releases/download/${{ matrix.mautic-version }}/${{ matrix.mautic-version}}.zip
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
