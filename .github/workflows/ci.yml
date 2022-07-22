@@ -14,8 +14,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: copy common files
-        run: cp -r common/* ${{ matrix.image }}
       - name: download mautic
         run: |
           wget -O mautic.zip https://github.com/mautic/mautic/releases/download/${{ matrix.mautic-version }}/${{ matrix.mautic-version}}.zip
