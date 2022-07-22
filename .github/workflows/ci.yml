@@ -42,14 +42,14 @@ jobs:
       - name: Build ${{ matrix.image }} image
         uses: docker/build-push-action@v2
         with:
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           context: .
           file: ${{ matrix.image }}/Dockerfile
           build-args: |
             MAUTIC_VERSION=${{ matrix.mautic-version }}
             MAUTIC_SHA1=${{ env.MAUTIC_SHA1 }}
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ivanmonteiro/mautic:${{ matrix.mautic-version }}-${{ matrix.image }}
+          tags: ivanmonteiro/mautic:${{ matrix.mautic-version }}-${{ matrix.image }}-volumes
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
         # Temp fix
