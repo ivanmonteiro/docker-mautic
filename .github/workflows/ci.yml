@@ -35,7 +35,7 @@ jobs:
       - name: Build ${{ matrix.image }} image
         uses: docker/build-push-action@v2
         with:
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           context: ${{ matrix.image }}
           build-args: |
             MAUTIC_VERSION=${{ matrix.mautic-version }}
