@@ -28,9 +28,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-${{ matrix.image }}-buildx-${{ github.sha }}
+          key: ${{ runner.os }}-${{ matrix.image }}-mautuc4-buildx-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.image }}-buildx-
+            ${{ runner.os }}-${{ matrix.image }}-mautuc4-buildx-
       - name: Login to DockerHub
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v1
