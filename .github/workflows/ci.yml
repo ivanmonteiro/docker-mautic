@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        mautic-version: [4.4.1]
+        mautic-version: [4.4.3, 4.4.2]
         image: [apache, fpm]
     steps:
       - name: Checkout
